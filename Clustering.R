@@ -43,11 +43,16 @@ create_barplot <- function(data, col, graph_title) {
     theme_ipsum()
 }
 
-create_boxplot(df, df$danceability, "Dançabilidade")
-create_boxplot(df, df$instrumentalness, "Instrumentalidade")
-create_boxplot(df, df$acousticness, "Acusticidade")
-speech_bp <- create_boxplot(df, df$speechiness, "Fala")
+create_dplot(df, df$speechiness, "Fala")
+create_dplot(df, df$danceability, "Dançabilidade")
+create_dplot(df, df$acousticness, "Acusticidade")
+create_dplot(df, df$energy, "Energia")
+create_dplot(df, df$tempo, "Tempo")
+create_dplot(df, df$valence, "Valência")
 
+create_boxplot(df, df$speechiness, "Fala")
+create_boxplot(df, df$danceability, "Dançabilidade")
+create_boxplot(df, df$acousticness, "Acusticidade")
 create_boxplot(df, df$energy, "Energia")
 create_boxplot(df, df$tempo, "Tempo")
 create_boxplot(df, df$valence, "Valência")
@@ -66,8 +71,8 @@ set.seed(123)
 
 kmeans_res <- kmeans(df_scaled, 4)
 
-table(df$cluster) # Tamanho dos clusters
 df$cluster = as.factor(kmeans_res$cluster) # Inserindo o número do cluster no dataset original
+table(df$cluster) # Tamanho dos clusters
 
 # Média das variáveis de cada cluster
 aggregate(df %>% select(-track_genre, -cluster), by=list(cluster=kmeans_res$cluster), mean)
