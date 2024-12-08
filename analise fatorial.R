@@ -132,9 +132,6 @@ kmo_resultado <- KMO(matriz_correlacao)
 # Visualizar o resultado
 print(kmo_resultado)
 
-kmo_resultado$MSA
-kmo_resultado$MSAi
-
 #===========================================================================
 
 # Realizar o teste de Bartlett
@@ -148,12 +145,14 @@ cat("Resultado do Teste de Bartlett (Teste de esfericidade):
 
 #===========================================================================
 
-# Realizar a análise fatorial
+#seleciona o numero de fatores baseado no critério de Kaiser-Guttman
+nfactors <- sum(eigen(matriz_correlacao)$values > 1)
 
-eigen(matriz_correlacao)$values
-nfactors <- sum(eigen(matriz_correlacao)$values > 1) #seleciona o numero de fatores baseado no critério de Kaiser-Guttman # nolint: line_length_linter, line_length_linter.
-nfactors
+print(nfactors)
 
+#===========================================================================
+
+# Realizar a análise fatorial sem rotação
 fa_resultado <- fa(df, nfactors = nfactors, rotate = "none")
 
 # Visualizar os resultados da análise fatorial
@@ -161,9 +160,6 @@ print(fa_resultado)
 
 # Visualizar a matriz de cargas fatoriais
 print(fa_resultado$loadings)
-
-# Visualizar as comunalidades dos fatores para cada variável
-print(fa_resultado$communality)
 
 # Visualizar a variância explicada por cada fator
 print(fa_resultado$Vaccounted)
